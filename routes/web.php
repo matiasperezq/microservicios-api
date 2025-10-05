@@ -5,6 +5,34 @@ use App\Http\Controllers\DocumentationController;
 
 Route::get('/', fn() => view('api-client'));
 
+Route::get('/bienvenido', fn() => view('welcome'))->name('welcome');
+
+Route::get('pagina', fn() => view('pagina'))->name('pagina');
+
+Route::get('/customers/{id?}', function ($id = null) {
+    if ($id) {
+        return "Cliente ID: {$id}";
+    }
+    return "Lista de todos los clientes";
+});
+
+// Múltiples parámetros
+Route::get('/customers/{id}/reviews/{reviewId}', function ($id, $reviewId) {
+    return "Review {$reviewId} del cliente {$id}";
+});
+
+// Solo letras
+Route::get('/categories/{slug}', function ($slug) {
+    return "Categoría: {$slug}";
+})->where('slug', '[a-zA-Z\-]+');
+
+// Expresiones regulares múltiples
+Route::get('/reseñas/{mes}/{año}', function ($mes, $año) {
+    $ruta = route('reviews-by-month', ['mes' => $mes, 'año' => $año]);
+    return "Reseñas de {$mes}/{$año} - Ver en: {$ruta}";
+})->where(['año' => '202[0-5]', 'mes' => '[0-9]{2}'])->name('reviews-by-month');
+
+
 // Ruta para previsualizar emails (solo para desarrollo)
 if (app()->environment('local')) {
     Route::get('/email-preview/reset-password', function () {
