@@ -10,6 +10,8 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\CustomVerifyEmailNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
@@ -18,7 +20,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
+        'mobile',
+        'semantic_context',
         'password',
     ];
 
@@ -38,6 +44,22 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function displayInfo(): string
     {
         return "User: {$this->name}, Email: {$this->email}";
+    }
+
+    /**
+     * Un usuario puede crear muchos posts (relación 1:N)
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Un usuario puede pertenecer a muchos canales (relación N:M)
+     */
+    public function channels(): BelongsToMany
+    {
+        return $this->belongsToMany(Channel::class, 'user_channels');
     }
 
     /**
