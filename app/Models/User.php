@@ -60,4 +60,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         $this->notify(new CustomVerifyEmailNotification());
     }
+
+    public function reservations()
+{
+    return $this->hasMany(Reservation::class);
+}
 }

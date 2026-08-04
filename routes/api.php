@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\FileController;
+use App\Http\Controllers\Api\SportController;
+use App\Http\Controllers\Api\CourtController;
+use App\Http\Controllers\Api\ReservationController;
 
 Route::get('/ping', fn() => response()->json([
     'success' => true,
@@ -37,39 +40,25 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{filename}', [FileController::class, 'delete']);
     });
 
-    // Ejemplo de ruta con permiso específico
-    Route::get('/admin/dashboard', function () {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Bienvenido al panel de administración',
-            'data' => [
-                'stats' => [
-                    'users' => 150,
-                    'posts' => 320,
-                    'comments' => 1240,
-                ]
-            ]
-        ]);
-    })->middleware('permission:access-admin-panel');
+    // ---- SportRent: lectura para cualquier usuario logueado ----
+    Route::get('/sports', [SportController::class, 'index']);
+    Route::get('/courts', [CourtController::class, 'index']);
+    Route::get('/courts/{court}/availability', [CourtController::class, 'availability']);
 
-    // Ejemplo de ruta para usuarios autenticados
-    Route::get('/user/profile', function () {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Perfil de usuario',
-            'data' => [
-                'profile' => [
-                    'bio' => 'Usuario activo del sistema',
-                    'posts_count' => 15,
-                    'followers' => 42,
-                ]
-            ]
-        ]);
-    });
+    // ---- SportRent: reservas del usuario logueado ----
+    Route::post('/reservations', [ReservationController::class, 'store']);
+    Route::get('/my-reservations', [ReservationController::class, 'myReservations']);
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'cancel']);
 });
 
-// Endpoint de prueba para archivos (sin autenticación para testing)
-Route::post('/test-files', [FileController::class, 'upload']);
-Route::get('/test-files', [FileController::class, 'index']);
-Route::get('/test-files/download/{filename}', [FileController::class, 'download']);
-Route::delete('/test-files/{filename}', [FileController::class, 'delete']);
+// ---- SportRent: administración, solo rol admin ----
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::post('/sports', [SportController::class, 'store']);
+    Route::put('/sports/{sport}', [SportController::class, 'update']);
+    Route::delete('/sports/{sport}', [SportController::class, 'destroy']);
+
+    Route::post('/courts', [CourtController::class, 'store']);
+    Route::put('/courts/{court}', [CourtController::class, 'update']);
+    Route::delete('/courts/{court}', [CourtController::class, 'destroy']);
+    Route::get('/admin/courts', [CourtController::class, 'adminIndex']);
+});

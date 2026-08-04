@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --court:        #1F7A4D;
+  --court-dark:   #145C39;
+  --court-tint:   #EAF6EE;
+  --ball:         #C9E265;
+  --bg:           #F4F8F5;
+  --panel:        #FFFFFF;
+  --border:       #DDE8DF;
+  --text:         #16261E;
+  --muted:        #5E7267;
+  --danger:       #C0392B;
+  --danger-bg:    #FCECEA;
+  --success:      #1F7A4D;
+  --success-bg:   #EAF6EE;
+  --radius:       14px;
+  --font-display: 'Manrope', sans-serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+/* ---------- Header ---------- */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px; background: var(--panel); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 20;
+}
+.logo { display: flex; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 800; font-size: 19px; }
+.logo .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ball); border: 2px solid var(--court); }
+.logo .badge {
+  font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+  background: var(--court-tint); color: var(--court-dark); padding: 3px 9px; border-radius: 999px;
+  margin-left: 6px;
+}
+.topbar .actions { display: flex; gap: 8px; }
+.topbar a.link-btn, .topbar button {
+  font-family: var(--font-body); font-weight: 600; font-size: 13px;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer; text-decoration: none;
+  border: 1.5px solid var(--border); background: none; color: var(--text);
+  transition: border-color .15s, color .15s;
+}
+.topbar a.link-btn:hover { border-color: var(--court); color: var(--court-dark); }
+#logoutBtn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Layout ---------- */
+.container { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+.access-denied {
+  max-width: 460px; margin: 90px auto; text-align: center;
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 36px;
+}
+.access-denied h2 { font-family: var(--font-display); margin: 0 0 10px; }
+.access-denied p { color: var(--muted); margin: 0 0 20px; }
+
+section.admin-section { margin-bottom: 44px; }
+h2.section-title { font-family: var(--font-display); font-weight: 800; font-size: 21px; margin: 0 0 16px; }
+
+/* ---------- Formularios ---------- */
+.form-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 22px 24px; margin-bottom: 22px;
+}
+.form-row { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.field input, .field select {
+  border: 1.5px solid var(--border); background: var(--bg); padding: 9px 12px;
+  border-radius: 9px; font-family: var(--font-body); font-size: 13.5px; color: var(--text);
+  min-width: 160px;
+}
+.field input[type="file"] { padding: 6px; background: var(--panel); }
+button.primary-btn {
+  background: var(--court); color: #fff; border: none; padding: 10px 20px;
+  border-radius: 9px; font-family: var(--font-body); font-weight: 700; font-size: 13.5px;
+  cursor: pointer; transition: background .15s;
+}
+button.primary-btn:hover { background: var(--court-dark); }
+button.primary-btn:disabled { opacity: .55; cursor: default; }
+
+.msg { font-size: 13px; padding: 9px 12px; border-radius: 9px; margin-top: 12px; display: none; font-weight: 500; }
+.msg.error { display: block; background: var(--danger-bg); color: var(--danger); }
+.msg.success { display: block; background: var(--success-bg); color: var(--success); }
+
+/* ---------- Lista de deportes ---------- */
+.sport-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.sport-tag {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--court-tint); color: var(--court-dark); font-weight: 600; font-size: 13px;
+  padding: 7px 8px 7px 14px; border-radius: 999px;
+}
+.sport-tag button {
+  background: none; border: none; color: var(--court-dark); cursor: pointer;
+  font-size: 15px; line-height: 1; opacity: .6; padding: 2px 4px;
+}
+.sport-tag button:hover { opacity: 1; color: var(--danger); }
+
+/* ---------- Grid de canchas (admin) ---------- */
+.courts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.court-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+}
+.court-card.inactive { opacity: .55; }
+.court-card .photo {
+  height: 120px; background: var(--court-tint); background-size: cover; background-position: center;
+  display: flex; align-items: center; justify-content: center; font-size: 30px; position: relative;
+}
+.court-card .photo label {
+  position: absolute; bottom: 6px; right: 6px; background: rgba(255,255,255,.9);
+  font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 999px; cursor: pointer;
+  color: var(--court-dark);
+}
+.court-card .photo input[type="file"] { display: none; }
+.court-card .info { padding: 13px 15px; }
+.court-card .info h3 { margin: 0 0 2px; font-family: var(--font-display); font-size: 14.5px; font-weight: 700; }
+.court-card .info .meta { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.court-card .row-actions { display: flex; align-items: center; justify-content: space-between; }
+
+.switch { position: relative; display: inline-block; width: 36px; height: 20px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch .slider {
+  position: absolute; inset: 0; background: var(--border); border-radius: 999px; cursor: pointer; transition: background .15s;
+}
+.switch .slider::before {
+  content: ""; position: absolute; width: 16px; height: 16px; left: 2px; top: 2px;
+  background: #fff; border-radius: 50%; transition: transform .15s;
+}
+.switch input:checked + .slider { background: var(--court); }
+.switch input:checked + .slider::before { transform: translateX(16px); }
+
+.icon-btn {
+  background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 600;
+}
+.icon-btn:hover { color: var(--danger); }
+
+.empty-msg { color: var(--muted); font-size: 13.5px; }

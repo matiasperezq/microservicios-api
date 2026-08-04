@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --court:        #1F7A4D;
+  --court-dark:   #145C39;
+  --court-tint:   #EAF6EE;
+  --ball:         #C9E265;
+  --bg:           #F4F8F5;
+  --panel:        #FFFFFF;
+  --border:       #DDE8DF;
+  --text:         #16261E;
+  --muted:        #5E7267;
+  --danger:       #C0392B;
+  --danger-bg:    #FCECEA;
+  --success:      #1F7A4D;
+  --success-bg:   #EAF6EE;
+  --occupied:     #F1E4E4;
+  --occupied-text:#A85454;
+  --radius:       14px;
+  --font-display: 'Manrope', sans-serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+}
+
+/* ---------- Header (igual que /auth) ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.logo {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-weight: 800; font-size: 19px;
+}
+.logo .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--ball); border: 2px solid var(--court);
+}
+.topbar nav { display: flex; align-items: center; gap: 8px; }
+.nav-tab {
+  font-family: var(--font-body); font-weight: 600; font-size: 14px;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid transparent; background: none; color: var(--muted);
+  transition: background .15s, color .15s;
+}
+.nav-tab.active { background: var(--court-tint); color: var(--court-dark); }
+.nav-tab:hover:not(.active) { color: var(--text); }
+.user-chip {
+  font-size: 13px; color: var(--muted); margin-right: 4px;
+}
+#logoutBtn {
+  font-family: var(--font-body); font-weight: 600; font-size: 13px;
+  padding: 8px 16px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--border); background: none; color: var(--text);
+  transition: border-color .15s, color .15s;
+}
+#logoutBtn:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- Layout general ---------- */
+.container { max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; }
+.view { display: none; }
+.view.active { display: block; }
+
+h2.section-title {
+  font-family: var(--font-display); font-weight: 800; font-size: 22px;
+  margin: 0 0 18px; letter-spacing: -0.01em;
+}
+
+/* ---------- Chips de deporte ---------- */
+.sport-chips { display: flex; gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+.sport-chip {
+  font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+  padding: 9px 18px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--panel); color: var(--text);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.sport-chip.active { background: var(--court); border-color: var(--court); color: #fff; }
+.sport-chip:hover:not(.active) { border-color: var(--court); color: var(--court-dark); }
+
+/* ---------- Grid de canchas ---------- */
+.courts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 18px;
+}
+.court-card {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; cursor: pointer;
+  transition: transform .15s, box-shadow .15s, border-color .15s;
+}
+.court-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -14px rgba(22,38,30,.22);
+  border-color: var(--court);
+}
+.court-card .photo {
+  height: 130px; background: var(--court-tint);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+  background-size: cover; background-position: center;
+}
+.court-card .info { padding: 14px 16px; }
+.court-card .info h3 {
+  margin: 0 0 4px; font-family: var(--font-display); font-size: 15.5px; font-weight: 700;
+}
+.court-card .info .price { font-size: 13.5px; color: var(--court-dark); font-weight: 700; }
+.empty-msg { color: var(--muted); font-size: 14px; padding: 20px 0; }
+
+/* ---------- Panel de reserva (fecha + horarios) ---------- */
+.booking-panel {
+  background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px; margin-top: 22px;
+}
+.booking-panel .bp-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;
+}
+.booking-panel .bp-header h3 {
+  font-family: var(--font-display); font-size: 17px; font-weight: 800; margin: 0;
+}
+.bp-header .close-panel {
+  background: none; border: none; color: var(--muted); cursor: pointer; font-size: 20px;
+  line-height: 1;
+}
+.bp-header .close-panel:hover { color: var(--danger); }
+
+.date-field { margin-bottom: 18px; }
+.date-field label { display: block; font-size: 12.5px; font-weight: 500; color: var(--muted); margin-bottom: 6px; }
+.date-field input {
+  border: 1.5px solid var(--border); background: var(--bg); padding: 9px 12px;
+  border-radius: 9px; font-family: var(--font-body); font-size: 14px; color: var(--text);
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.slot-btn {
+  font-family: var(--font-body); font-weight: 600; font-size: 13px;
+  padding: 9px 0; border-radius: 8px; cursor: pointer; text-align: center;
+  border: 1.5px solid var(--border); background: var(--bg); color: var(--text);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.slot-btn:hover:not(.occupied) { border-color: var(--court); color: var(--court-dark); }
+.slot-btn.selected { background: var(--court); border-color: var(--court); color: #fff; }
+.slot-btn.occupied {
+  background: var(--occupied); color: var(--occupied-text); border-color: var(--occupied);
+  cursor: not-allowed; text-decoration: line-through;
+}
+
+.confirm-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 16px; border-top: 1px solid var(--border);
+}
+.confirm-row .summary { font-size: 13.5px; color: var(--muted); }
+.confirm-row .summary strong { color: var(--text); }
+button.confirm-btn {
+  background: var(--court); color: #fff; border: none; padding: 11px 22px;
+  border-radius: 9px; font-family: var(--font-body); font-weight: 700; font-size: 14px;
+  cursor: pointer; transition: background .15s;
+}
+button.confirm-btn:hover { background: var(--court-dark); }
+button.confirm-btn:disabled { opacity: .5; cursor: default; }
+
+.msg {
+  font-size: 13px; padding: 10px 12px; border-radius: 9px; margin-top: 14px;
+  display: none; font-weight: 500;
+}
+.msg.error   { display: block; background: var(--danger-bg);  color: var(--danger); }
+.msg.success { display: block; background: var(--success-bg); color: var(--success); }
+
+/* ---------- Mis reservas ---------- */
+.reservation-list { display: flex; flex-direction: column; gap: 12px; }
+.reservation-item {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 18px; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.reservation-item .r-info h4 {
+  margin: 0 0 4px; font-family: var(--font-display); font-size: 15px; font-weight: 700;
+}
+.reservation-item .r-info p { margin: 0; font-size: 13px; color: var(--muted); }
+.reservation-item .r-status {
+  font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+}
+.r-status.confirmed { background: var(--success-bg); color: var(--success); }
+.r-status.cancelled { background: var(--occupied); color: var(--occupied-text); }
+.cancel-btn {
+  background: none; border: 1.5px solid var(--border); color: var(--text);
+  padding: 7px 14px; border-radius: 8px; font-family: var(--font-body); font-weight: 600;
+  font-size: 12.5px; cursor: pointer; transition: border-color .15s, color .15s;
+}
+.cancel-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+@media (max-width: 640px) {
+  .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 10px; }
+  .container { padding: 24px 16px 60px; }
+}
